@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VTU Secure Exam Portal</title>
+  <title>Readiness Exam Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -150,7 +150,7 @@
 </head>
 <body oncontextmenu="return false">
   <div class="container">
-    <h1>VTU Secure Exam Portal</h1>
+    <h1>Readiness Exam Portal</h1>
 
     <div class="timer" id="timerDisplay">
       ⏱️ Time Left: <span id="countdown">60:00</span>
@@ -221,7 +221,7 @@
     </form>
 
     <div class="success-message" id="successMsg">
-      ✅ Exam submitted successfully!<br>Your responses are saved.
+      ✅ Your answers have been recorded successfully!<br>Thank you for attending the VTU Readiness Exam. Your evaluation will be shared shortly.
     </div>
   </div>
 
@@ -262,7 +262,7 @@
       document.getElementById("examForm").style.display = "none";
       document.getElementById("successMsg").style.display = "block";
       const now = new Date();
-      document.getElementById("timerDisplay").innerHTML = `🟢 Submitted at: <strong>${now.toLocaleTimeString()}</strong>`;
+      document.getElementById("timerDisplay").innerHTML = ` Submitted at: <strong>${now.toLocaleTimeString()}</strong>`;
     }
 
     document.getElementById("examForm").addEventListener("submit", function (e) {
