@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VTU Secure Exam Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #e9fdf0;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 0 20px rgba(0, 128, 0, 0.1);
+      border-left: 5px solid #00aa55;
+      border-radius: 0 0 12px 12px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #007a3d;
+      margin-top: 0;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 20px;
+      color: #0f4d32;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #a7dfc0;
+      border-radius: 10px;
+      font-size: 15px;
+      background-color: #f8fff9;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .question {
+      margin-top: 20px;
+      background-color: #f3fff6;
+      border-radius: 12px;
+      border: 1px solid #c4e9d4;
+      padding: 15px;
+      display: none;
+      animation: slideIn 0.5s ease;
+    }
+
+    .reveal-btn {
+      margin-top: 10px;
+      background-color: #00aa55;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+    }
+
+    .reveal-btn:hover {
+      background-color: #008844;
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 12px;
+      color: #555;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      background: #d9fce1;
+      color: #004d26;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 2px dashed #00aa55;
+      border-radius: 10px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 30px;
+      background-color: #007a3d;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #005c2e;
+    }
+
+    .success-message {
+      display: none;
+      padding: 20px;
+      background: #e2fce6;
+      border: 2px solid #00aa55;
+      color: #0f3d1f;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body oncontextmenu="return false">
+  <div class="container">
+    <h1>VTU Secure Exam Portal</h1>
+
+    <div class="timer" id="timerDisplay">
+      ⏱️ Time Left: <span id="countdown">60:00</span>
+    </div>
+
+    <form id="examForm">
+      <label>Full Name</label>
+      <input type="text" required>
+
+      <label>Mobile Number</label>
+      <input type="tel" required pattern="[0-9]{10}" placeholder="10-digit number">
+
+      <label>Email ID</label>
+      <input type="email" required>
+
+      <!-- Question 1 -->
+      <div class="q-block">
+        <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 1</button>
+        <div class="question">
+          <label>1. Explain transaction in DBMS with real-life example.</label>
+          <textarea oninput="updateCount(this)"></textarea>
+          <div class="char-count">Characters: <span>0</span></div>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="q-block">
+        <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 2</button>
+        <div class="question">
+          <label>2. Types of normalization with examples.</label>
+          <textarea oninput="updateCount(this)"></textarea>
+          <div class="char-count">Characters: <span>0</span></div>
+        </div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="q-block">
+        <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 3</button>
+        <div class="question">
+          <label>3. Triggers in SQL and use-cases.</label>
+          <textarea oninput="updateCount(this)"></textarea>
+          <div class="char-count">Characters: <span>0</span></div>
+        </div>
+      </div>
+
+      <!-- Question 4 -->
+      <div class="q-block">
+        <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 4</button>
+        <div class="question">
+          <label>4. Deadlock handling in DBMS.</label>
+          <textarea oninput="updateCount(this)"></textarea>
+          <div class="char-count">Characters: <span>0</span></div>
+        </div>
+      </div>
+
+      <!-- Question 5 -->
+      <div class="q-block">
+        <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 5</button>
+        <div class="question">
+          <label>5. Hashing and Indexing in DBMS.</label>
+          <textarea oninput="updateCount(this)"></textarea>
+          <div class="char-count">Characters: <span>0</span></div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Answers</button>
+    </form>
+
+    <div class="success-message" id="successMsg">
+      ✅ Exam time completed or submitted successfully!<br>
+      Your responses are saved.
+    </div>
+  </div>
+
+  <script>
+    let timerInterval;
+    let totalTime = 60 * 60; // 60 minutes in seconds
+
+    function updateTimerDisplay() {
+      const countdownEl = document.getElementById("countdown");
+      const minutes = Math.floor(totalTime / 60);
+      const seconds = totalTime % 60;
+      countdownEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        totalTime--;
+        updateTimerDisplay();
+        if (totalTime <= 0) {
+          clearInterval(timerInterval);
+          autoSubmitExam();
+        }
+      }, 1000);
+    }
+
+    function autoSubmitExam() {
+      const form = document.getElementById("examForm");
+      const successMsg = document.getElementById("successMsg");
+      const timerBox = document.getElementById("timerDisplay");
+
+      form.style.display = "none";
+      successMsg.style.display = "block";
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString();
+      timerBox.innerHTML = `🟢 You submitted at: <strong>${timeStr}</strong>`;
+    }
+
+    function reveal(button) {
+      const questionDiv = button.nextElementSibling;
+      questionDiv.style.display = "block";
+      button.style.display = "none";
+    }
+
+    function updateCount(textarea) {
+      const count = textarea.value.length;
+      textarea.nextElementSibling.querySelector("span").textContent = count;
+    }
+
+    document.getElementById("examForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      clearInterval(timerInterval);
+      autoSubmitExam();
+    });
+
+    // Prevent copy/screenshot
+    document.addEventListener("keydown", function (e) {
+      if (
+        (e.ctrlKey && (e.key === "c" || e.key === "u" || e.key === "s")) ||
+        e.key === "PrintScreen"
+      ) {
+        e.preventDefault();
+        alert("Copying or screenshot is disabled during the exam.");
+      }
+    });
+
+    window.addEventListener("keyup", function (e) {
+      if (e.key === "PrintScreen") {
+        alert("Screenshot is not allowed.");
+        document.body.innerHTML = "";
+      }
+    });
+
+    // Init timer
+    updateTimerDisplay();
+    startTimer();
+  </script>
+</body>
+</html>
