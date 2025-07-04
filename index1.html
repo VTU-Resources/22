@@ -37,32 +37,38 @@
     label {
       font-weight: 600;
       display: block;
-      margin-top: 20px;
+      margin-bottom: 6px;
       color: #0f4d32;
     }
 
     input, textarea {
       width: 100%;
-      padding: 12px;
+      padding: 10px 12px;
       border: 2px solid #a7dfc0;
       border-radius: 10px;
       font-size: 15px;
       background-color: #f8fff9;
       font-family: 'Poppins', sans-serif;
+      line-height: 1.5;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
     }
 
     .question {
-      margin-top: 20px;
+      margin-top: 15px;
       background-color: #f3fff6;
       border-radius: 12px;
       border: 1px solid #c4e9d4;
-      padding: 15px;
+      padding: 12px 15px 10px;
       display: none;
       animation: slideIn 0.5s ease;
     }
 
     .reveal-btn {
-      margin-top: 10px;
+      margin-top: 12px;
       background-color: #00aa55;
       color: white;
       border: none;
@@ -81,6 +87,7 @@
       text-align: right;
       font-size: 12px;
       color: #555;
+      margin-top: 4px;
     }
 
     .timer {
@@ -212,7 +219,7 @@
 
   <script>
     let timerInterval;
-    let totalTime = 60 * 60; // 60 minutes in seconds
+    let totalTime = 60 * 60;
 
     function updateTimerDisplay() {
       const countdownEl = document.getElementById("countdown");
@@ -262,12 +269,9 @@
       autoSubmitExam();
     });
 
-    // Prevent copy/screenshot
+    // Disable copy/screenshot
     document.addEventListener("keydown", function (e) {
-      if (
-        (e.ctrlKey && (e.key === "c" || e.key === "u" || e.key === "s")) ||
-        e.key === "PrintScreen"
-      ) {
+      if ((e.ctrlKey && ["c", "u", "s"].includes(e.key)) || e.key === "PrintScreen") {
         e.preventDefault();
         alert("Copying or screenshot is disabled during the exam.");
       }
@@ -280,7 +284,6 @@
       }
     });
 
-    // Init timer
     updateTimerDisplay();
     startTimer();
   </script>
