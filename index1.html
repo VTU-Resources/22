@@ -128,6 +128,14 @@
       margin-top: 30px;
     }
 
+    #loading {
+      display: none;
+      text-align: center;
+      font-size: 16px;
+      color: #004d26;
+      margin-top: 20px;
+    }
+
     @keyframes slideIn {
       from {
         opacity: 0;
@@ -150,20 +158,20 @@
 
     <form id="examForm">
       <label>Full Name</label>
-      <input type="text" required>
+      <input type="text" id="name" required>
 
       <label>Mobile Number</label>
-      <input type="tel" required pattern="[0-9]{10}" placeholder="10-digit number">
+      <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="10-digit number">
 
       <label>Email ID</label>
-      <input type="email" required>
+      <input type="email" id="email" required>
 
       <!-- Question 1 -->
       <div class="q-block">
         <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 1</button>
         <div class="question">
           <label>1. Explain transaction in DBMS with real-life example.</label>
-          <textarea oninput="updateCount(this)"></textarea>
+          <textarea id="q1" oninput="updateCount(this)"></textarea>
           <div class="char-count">Characters: <span>0</span></div>
         </div>
       </div>
@@ -173,7 +181,7 @@
         <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 2</button>
         <div class="question">
           <label>2. Types of normalization with examples.</label>
-          <textarea oninput="updateCount(this)"></textarea>
+          <textarea id="q2" oninput="updateCount(this)"></textarea>
           <div class="char-count">Characters: <span>0</span></div>
         </div>
       </div>
@@ -183,7 +191,7 @@
         <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 3</button>
         <div class="question">
           <label>3. Triggers in SQL and use-cases.</label>
-          <textarea oninput="updateCount(this)"></textarea>
+          <textarea id="q3" oninput="updateCount(this)"></textarea>
           <div class="char-count">Characters: <span>0</span></div>
         </div>
       </div>
@@ -193,7 +201,7 @@
         <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 4</button>
         <div class="question">
           <label>4. Deadlock handling in DBMS.</label>
-          <textarea oninput="updateCount(this)"></textarea>
+          <textarea id="q4" oninput="updateCount(this)"></textarea>
           <div class="char-count">Characters: <span>0</span></div>
         </div>
       </div>
@@ -203,17 +211,17 @@
         <button type="button" class="reveal-btn" onclick="reveal(this)">🧾 Reveal Question 5</button>
         <div class="question">
           <label>5. Hashing and Indexing in DBMS.</label>
-          <textarea oninput="updateCount(this)"></textarea>
+          <textarea id="q5" oninput="updateCount(this)"></textarea>
           <div class="char-count">Characters: <span>0</span></div>
         </div>
       </div>
 
       <button type="submit" class="submit-btn">Submit Answers</button>
+      <div id="loading">⏳ Submitting, please wait...</div>
     </form>
 
     <div class="success-message" id="successMsg">
-      ✅ Exam time completed or submitted successfully!<br>
-      Your responses are saved.
+      ✅ Exam submitted successfully!<br>Your responses are saved.
     </div>
   </div>
 
@@ -239,19 +247,6 @@
       }, 1000);
     }
 
-    function autoSubmitExam() {
-      const form = document.getElementById("examForm");
-      const successMsg = document.getElementById("successMsg");
-      const timerBox = document.getElementById("timerDisplay");
-
-      form.style.display = "none";
-      successMsg.style.display = "block";
-
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString();
-      timerBox.innerHTML = `🟢 You submitted at: <strong>${timeStr}</strong>`;
-    }
-
     function reveal(button) {
       const questionDiv = button.nextElementSibling;
       questionDiv.style.display = "block";
@@ -263,17 +258,51 @@
       textarea.nextElementSibling.querySelector("span").textContent = count;
     }
 
+    function autoSubmitExam() {
+      document.getElementById("examForm").style.display = "none";
+      document.getElementById("successMsg").style.display = "block";
+      const now = new Date();
+      document.getElementById("timerDisplay").innerHTML = `🟢 Submitted at: <strong>${now.toLocaleTimeString()}</strong>`;
+    }
+
     document.getElementById("examForm").addEventListener("submit", function (e) {
       e.preventDefault();
       clearInterval(timerInterval);
-      autoSubmitExam();
+      document.getElementById("loading").style.display = "block";
+
+      const data = new URLSearchParams();
+      data.append("name", document.getElementById("name").value);
+      data.append("phone", document.getElementById("phone").value);
+      data.append("email", document.getElementById("email").value);
+      data.append("q1", document.getElementById("q1").value);
+      data.append("q2", document.getElementById("q2").value);
+      data.append("q3", document.getElementById("q3").value);
+      data.append("q4", document.getElementById("q4").value);
+      data.append("q5", document.getElementById("q5").value);
+
+      fetch("https://script.google.com/macros/s/AKfycbxo_tpGKw2rvm7LigjDppl6oO2yd9_cB5-u3FqXEfm7KflFRURwPz3hWp_GuuJoiv9wJg/exec", {
+        method: "POST",
+        body: data.toString(),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+      .then(res => res.text())
+      .then(result => {
+        document.getElementById("loading").style.display = "none";
+        autoSubmitExam();
+      })
+      .catch(error => {
+        document.getElementById("loading").style.display = "none";
+        alert("Submission failed. Please try again.");
+        console.error(error);
+      });
     });
 
-    // Disable copy/screenshot
     document.addEventListener("keydown", function (e) {
       if ((e.ctrlKey && ["c", "u", "s"].includes(e.key)) || e.key === "PrintScreen") {
         e.preventDefault();
-        alert("Copying or screenshot is disabled during the exam.");
+        alert("Copying or screenshot is disabled.");
       }
     });
 
